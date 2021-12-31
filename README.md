@@ -1,1 +1,2 @@
-# Methods_Of_Collecting_And_Processing_Data
+Простой скрапер вакансий с сайтов HH и Superjob.
+Версия интерпретатора python 3.10
