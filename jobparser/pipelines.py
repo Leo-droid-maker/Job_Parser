@@ -19,12 +19,12 @@ class JobparserPipeline:
     def process_item(self, item, spider):
 
         match spider.name:
-            case 'hhru':
+            case 'hhcom':
                 try:
                     item['min'], item['max'], item['cur'] = self.hhru_salary_handler(item)
                 except UnboundLocalError:
                     pass
-            case 'superjobru':
+            case 'superjobcom':
                 try:
                     item['min'], item['max'], item['cur'] = self.superjobru_salary_handler(item)
                 except UnboundLocalError:
@@ -35,7 +35,7 @@ class JobparserPipeline:
         try:
             collection.insert_one(item)
         except DuplicateKeyError:
-            print(f'Данный элемент уже есть в базе данных: {item["name"]}')
+            print(f'This item already exists in the database: {item["name"]}')
 
         return item
 
@@ -47,9 +47,9 @@ class JobparserPipeline:
                         int(min_comp.replace(u"\xa0", '')), \
                         int(max_comp.replace(u"\xa0", '')), \
                         currency
-                case (pref, comp, _, currency, _) if pref == 'от':
+                case (pref, comp, _, currency, _) if pref == 'from':
                     min, max, cur = int(comp.replace(u"\xa0", '')), None, currency
-                case (pref, comp, _, currency, _) if pref == 'до':
+                case (pref, comp, _, currency, _) if pref == 'to':
                     min, max, cur = None, int(comp.replace(u"\xa0", '')), currency
 
         except:
@@ -68,11 +68,11 @@ class JobparserPipeline:
                         int(min_comp.replace(u"\xa0", '')), \
                         int(max_comp.replace(u"\xa0", '')), \
                         currency.replace('.', '')
-                case (pref, _, comp) if pref == 'от':
-                    min, max, cur = int((comp.replace(u"\xa0", '')).replace('руб.', '')), None, 'руб'
-                case (pref, _, comp) if pref == 'до':
-                    min, max, cur = None, int((comp.replace(u"\xa0", '')).replace('руб.', '')), 'руб'
-                case 'По договорённости':
+                case (pref, _, comp) if pref == 'from':
+                    min, max, cur = int((comp.replace(u"\xa0", '')).replace('USD.', '')), None, 'USD'
+                case (pref, _, comp) if pref == 'to':
+                    min, max, cur = None, int((comp.replace(u"\xa0", '')).replace('USD.', '')), 'USD'
+                case 'By agreement':
                     min = None
                     max = None
                     cur = None

@@ -2,13 +2,13 @@ import sys
 sys.path.append("..")
 import scrapy
 from scrapy.http import HtmlResponse
-from Lesson_6_Scrapy.jobparser.items import JobparserItem
+from jobparser.items import JobparserItem
 
 
 class SuperjobruSpider(scrapy.Spider):
-    name = 'superjobru'
-    allowed_domains = ['superjob.ru']
-    start_urls = ['https://www.superjob.ru/vacancy/search/?keywords=python&geo%5Bt%5D%5B0%5D=4']
+    name = 'superjobcom'
+    allowed_domains = ['superjob.com']
+    start_urls = ['https://www.superjob.com/vacancy/search/?keywords=python&geo%5Bt%5D%5B0%5D=4']
 
     def parse(self, response: HtmlResponse):
         next_page_link = response.xpath('//a[@rel="next"]/@href').get()

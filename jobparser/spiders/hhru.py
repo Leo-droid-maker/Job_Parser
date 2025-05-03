@@ -2,13 +2,13 @@ import sys
 sys.path.append("..")
 import scrapy
 from scrapy.http import HtmlResponse
-from Lesson_6_Scrapy.jobparser.items import JobparserItem
+from jobparser.items import JobparserItem
 
 
 class HhruSpider(scrapy.Spider):
-    name = 'hhru'
-    allowed_domains = ['hh.ru']
-    start_urls = ['https://spb.hh.ru/search/vacancy?area=2&fromSearchLine=true&text=python']
+    name = 'hhcom'
+    allowed_domains = ['hh.com']
+    start_urls = ['https://hh.com/search/vacancy?area=2&fromSearchLine=true&text=python']
 
     def parse(self, response: HtmlResponse):
         # print('HERE ' + response.url)
